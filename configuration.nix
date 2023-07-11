@@ -1,7 +1,11 @@
 { pkgs, ... }: {
 
+  imports = [
+    ./bobs-configuration.nix
+  ];
+
   programs.java.enable = true;
-  programs.java.package = pkgs.jdk11;
+  programs.java.package = pkgs.jdk19;
 
   environment.systemPackages = [
     pkgs.jetbrains.idea-community
