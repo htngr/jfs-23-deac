@@ -47,27 +47,36 @@ Johannes Hüttinger
 <aside class="notes"><ul>
 <li><p>Jeder Entwickler kennt das Problem:</p>
 <ul>
-<li>Softwareprojekt = Entwicklungsumgebung mit Vielzahl von Tools, wie IDE, Compiler, Docker, DBs, ...</li>
-<li>Wartung</li>
-<li>Im Team verteilen</li>
+<li>Softwareprojekt = Entwicklungsumgebung einrichten<ul>
+<li>System, IDE, Compiler, Docker, DBs, ...</li>
+</ul>
+</li>
+<li>Dazu kommen Systemwartung, Verteilung im Team, ...</li>
 <li>Dieser Talk:<ul>
-<li>Möglichst reibungslos EUs erstellen, verteilen und updaten -&gt; siehe Titel</li>
-<li>Gute DX</li>
+<li>wie möglichst reibungslos und automatisiert</li>
+<li>für Entwickler heißt das: mit Code</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Für wen ist dieser Talk:</p>
-<ol>
-<li>Consulting / Individualsoftware =&gt; Mehrere Projekte, öfters wechseln</li>
-<li>Größere Teams</li>
-<li>Open Source Projekte</li>
-</ol>
-</li>
-<li><p>Bemerkungen:</p>
+<li><p>Warum ist das überhaupt relevant?</p>
 <ul>
-<li>Fokus auf lokale, Linux-EUs, Host eigentlich egal</li>
+<li>Zu jedem Softwareprojekt gehört eine EU</li>
 </ul>
+</li>
+<li><p>Für</p>
+<ol>
+<li>Individualsoftware: <ul>
+<li>Mehrere Projekte, Je nach Projektsituation wechseln Entwickler zwischen Projekten</li>
+</ul>
+</li>
+<li>Produktentwicklung: Viele Entwickler benötigen genau die gleiche EU</li>
+<li>Open Source Projekte:<ul>
+<li>neue Contributor sollen möglichst schnell anfangen können</li>
+<li>nicht lange mit Setup beschäftigen</li>
+</ul>
+</li>
+</ol>
 </li>
 </ul>
 <!-- }}} --></aside></script></section><section ><section data-markdown><script type="text/template">
@@ -99,54 +108,75 @@ Johannes Hüttinger
 </div>
 
 <aside class="notes"><ul>
-<li>Wozu dienen EUs?</li>
+<li>Wozu braucht man EUs?</li>
 </ul>
 <ol>
 <li><p>Tools bereitstellen (offensichtlich)</p>
 <ul>
-<li>Aber auch: Wartung, Verteilung, Änderungen (parallel zu Projekt), Automatisierung / Zuverlässigkeit</li>
+<li>dazu gehört aber auch: <ul>
+<li>Projekt entwickelt sich =&gt; Änderungen (Wartung)</li>
+<li>Verteilung im Team<ul>
+<li>Automatisierung / Zuverlässigkeit</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p>Entwicklerprod. (DX)</p>
 <ul>
-<li>Wenn ich mit der EU gut zurechtkomme =&gt; produktiv</li>
-<li>Individualisierung</li>
+<li>EU soll mich möglichst produktiv machen</li>
+<li>=&gt; Performance</li>
+<li>=&gt; Integration mit Umgebungsübergreifenden Tools (Teams, Mail, etc.)</li>
+<li>=&gt; Individualisierung</li>
 </ul>
 </li>
 </ol>
-<p><strong>Beide Punkte merken</strong></p>
+<ul>
+<li>Wir schauen uns in diesem Vortrag diese beiden Aspekte an, d.h. im Hinterkopf behalten</li>
+</ul>
 </aside></script></section><section data-markdown><script type="text/template">
-## Lebenslauf einer Entwicklungsumgebung
+## Entwicklung einer Entwicklungsumgebung
 
 <img class="embed" src="./imgs/devenv-flow.drawio.svg" style="margin-left:5em"/>
 
 <aside class="notes"><ul>
-<li>Zuerst schauen Wartung an</li>
-<li>Schon erwähnt: EU ~ Projekt</li>
-<li>Bei Source code: wird in Git (VCS) festgehalten</li>
-</ul>
-<ol>
-<li>git init</li>
-<li>erste version: eclipse, web sphere</li>
-<li>zweite version: IJ, nodejs, Browser</li>
-<li>evtl. Rollbacks / Feature branches</li>
-<li>Fazit: <ul>
-<li>EU sollte an jedem Stand des Projektes die richtigen Tools zur Verfügung stellen</li>
+<li><p>haben festgestellt, das EU nicht etwas statisches ist, sondern sich mit Projekt mitentwickelt</p>
+</li>
+<li><p>Entwicklung eines Projektes in Versionsverwaltung (Git) festgehalten</p>
+</li>
+<li><p>z.B. Anfang: JDK8, eclipse</p>
+</li>
+<li><p>nach einigen Jahren: JDK17, IJ, nodejs</p>
+</li>
+<li><p>Weihnachten 2021: log4j =&gt; Fixes backporten</p>
+<ul>
+<li>komplette Historie des Codes in Git =&gt; git checkout v1</li>
+<li>EU von vor ein paar Jahren nötig</li>
 </ul>
 </li>
-<li>Auch (DX):<ul>
-<li>Individualisierungen (Vim, Keymap) / Zustand</li>
+<li><p>genauso auch EU: an jedem Commit d. Projekts passende Tools zur Verfügung</p>
+</li>
+<li><p>Oder Feature branches</p>
+</li>
+<li><p>Zusätzlich zu Projektentwicklung: Entwickler</p>
+<ul>
+<li>verändern den Zustand der EU: <ul>
+<li>Konfiguration, Paketinstallation (DX)</li>
+<li>Zustand (DB, Logins, ...)</li>
 </ul>
 </li>
-</ol>
+<li>diese Änderungen mitnehmen zwischen Versionen</li>
+</ul>
+</li>
+</ul>
 </aside></script></section><section data-markdown><script type="text/template">
 ## Stand der Dinge
 
 <div class="two-col">
 <div class="left">
 
-- 🟧 ⚠️ Bare Metal
-<!-- .element: class="fragment""-->
+- ~~❓ Manuell / Bare Metal~~ <!-- .element: class="fragment""-->
 - 🟧 Virtuelle Maschinen
 <!-- .element: class="fragment""-->
 - 🟩 ⚠️ VS Code + Docker<br>(Devcontainers / Codespaces)
@@ -165,21 +195,61 @@ Johannes Hüttinger
 </div>
 
 <aside class="notes"><ul>
-<li>Werden manuell / gescripted Zweck #1 (Wartung) gerecht? (Bezug auf Entwicklung mit Projekt?)</li>
-<li>Antwort: Nein, weil Veränderung der EU nicht mit Projekt läuft, sondern immer neu gebaut wird</li>
-<li>Zustand von Containern / VMs wurde von jedem Entwickler verändert</li>
-<li>Kann nicht automatisiert rangehen und Updaten</li>
-<li>Rollbacks noch weniger</li>
-<li>Manuell nur mit viel Aufwand / jeder Entwickler selbst</li>
-<li>Neue Version =&gt; Individualisierung &amp; Zustand neu einrichten / manuell übertragen</li>
-<li>Warum nicht? / Wie besser machen?</li>
+<li><p>Das war die Theorie. Wie siehts in der Praxis aus?</p>
+</li>
+<li><p>Schauen wir uns mal die gängigen Vorgehensweisen an</p>
+<ul>
+<li>Häufig: Manuell auf Bare Metal<ul>
+<li>keine Lösung, weil nicht automatisch oder reproduzierbar</li>
 </ul>
-<!-- ---- -->
-
-<!-- <iframe src="https://app.sli.do/event/nGzBwAXqcyvtGhdwQTrF51/embed/polls/b8b6380f-3199-47b7-b3a4-598a2775e164" height="100%" width="100%" frameBorder="0" style="min-height: 630px;" title="Slido"></iframe> -->
-
+</li>
+<li>Besser: manuelle Installation (einmalig) in VM<ul>
+<li>dann VM verteilen =&gt; Kollegen starten einfach nur VM</li>
+</ul>
+</li>
+<li>Seit einigen Jahren Infrastructure as Code<ul>
+<li>Docker, Vagrant, Ansible</li>
+<li>d.h. Systemconf. als Code (Skripte)</li>
+<li>Tool, das diese Skripte realisiert</li>
+<li>Code: kann in Projekt Repo liegen und sich mitentwickeln</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Werden diese Ansätze unseren Anforderungen gerecht? NEIN</p>
+<ul>
+<li>Warum nicht? <ul>
+<li>inkrementelle Updates der EU nicht möglich, sobald EU verändert wurde</li>
+<li>virtuelle Maschinen sowieso<ul>
+<li>hier muss jede Version manuell erstellt werden</li>
+</ul>
+</li>
+<li>Tools erstellen immer gewünschte Version from Scratch</li>
+<li>Zustand, Anpassungen gehen dazwischen verloren</li>
+<li>Deshalb: selten Updates, und dann manuell einrichten oder manuell updaten</li>
+</ul>
+</li>
+<li>Außerdem<ul>
+<li>VMs:<ul>
+<li>erstellung oft nicht dokumentiert</li>
+<li>nach einigen Jahren: Wie hab ich das damals gemacht?</li>
+</ul>
+</li>
+<li>Scripte:<ul>
+<li>nicht ergonomisch um komplexe Systeme zu konfigurieren</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Warum ist inkrementelles Updaten / rollbacks nicht so einfach möglich?</p>
+</li>
+<li><p>Um das zu verstehen, schauen wir uns an, wie diese Ansätze ein System einrichten</p>
+</li>
+</ul>
 <!-- }}} --></aside></script></section></section><section ><section data-markdown><script type="text/template">
-## Imperatives Paketmanagement
+## Traditionelles Systemmanagement
 
 <!-- {{{ -->
 
@@ -236,35 +306,37 @@ systemd enable sshd.service
 
 
 <aside class="notes"><ul>
-<li>Warum imperativ?</li>
-<li>ausgehend von einem Linux FS, aber genauso auf Windows (C:/Program Files) / Mac<ul>
-<li>Konfigurationen in /etc</li>
-<li>User-Daten in /home</li>
-<li>Programme in /usr/bin</li>
-<li>Geteilte Bibliotheken in /usr/lib</li>
-<li>Sonstiges (z.B. ) in /usr/share</li>
-<li>Programmzustand in /var/lib</li>
+<li>Ansätze basieren alle auf traditionellen System- / Paketmanagement</li>
+<li>Auf der rechten Seite ein Linux Dateisystem<ul>
+<li>vordefinierte Order, <ul>
+<li>etc = configs</li>
+<li>home = Userdateien</li>
+<li>/usr/bin = Programme</li>
+<li>/usr/lib = Libs</li>
 </ul>
 </li>
-<li>System-/ Paketmanagement besteht aus einer Reihenfolge von Befehlen<ul>
-<li>Befehl kann Systemzustand beliebig verändern. Z.B. Paketupdates destruktiv &amp; inplace</li>
-<li>Ein Befehl ist vom vorherigen / Systemzustand abhängig</li>
-<li>Jeder Schritt an sich ist nicht atomar</li>
-<li>=&gt; Beispiel Software Update Nextcloud / Postgres</li>
+<li>auf Win / Mac ähnlich, nur andere Namen</li>
 </ul>
 </li>
-<li>Zusätzlich durch FHS<ul>
-<li>Dependency Hell / Pakete können sich gegenseitig stören</li>
+<li>links ein ausschnitt aus meinem Dockerfile / Ansible Playbook<ul>
+<li>reihe von Befehlen</li>
+<li>Jeder Befehl verändert den Systemzustand destruktiv und inplace 
+  =&gt; nicht mehr rückgängig</li>
+<li>Das ganze ist nicht atomar
+  =&gt; Skript schlägt in der Mitte fehl 
+  =&gt; undef. Zustand. weiß nicht, was verändert wurde</li>
+<li>Befehle verändern nicht nur den Zustand, sondern hängen auch davon ab</li>
+<li>Reihenfolge beachten =&gt; Fragil</li>
+</ul>
+</li>
+<li>Daraus wird klar:<ul>
+<li>ich kann zwar so &quot;from scratch&quot; mein System konfigurieren</li>
+<li>aber nach der Installation verändert jeder Entwickler seinen Systemzustand</li>
+<li>von einem unbekannten Systemzustand kein zuverlässiges Updaten möglich</li>
+<li>deshalb immer from scratch</li>
 </ul>
 </li>
 </ul>
-<p>Problem: 
-    - kein klares Konzept zur Installation von Paketen, Konfiguration &amp; Wechsel zwischen Versionen
-    - Analogie VCS
-    - Daraus wird klar, warum in EUs mit imperativem Paketmanagement nicht <em>reproduzierbar</em> zwischen Version 1 und 2 gewechselt werden kann
-        - Ich kann nicht sicher sagen, welche Dateien in welchem Zustand sind und ob sie verändert wurden</p>
-<p>Überleitung:
-    Wer sich mit verschiedenen Programmiersprachen und -paradigmen beschäftigt, dem könnte die Diskussion über &quot;imperativ&quot; und &quot;veränderbarer Zustand&quot; bekannt vorkommen</p>
 </aside></script></section><section data-markdown><script type="text/template">
 ## Imperativ vs. Funktional
 
@@ -323,29 +395,25 @@ plus = ...
 </div>
 
 <aside class="notes"><ul>
-<li><p>Meiste Sprachen</p>
-<ul>
-<li>sind imperativ =&gt; Program = Sequenz von Befehlen</li>
+<li>Ähnliches Problem auch in Programmierung</li>
+<li>Meiste Sprachen<ul>
+<li>imperativ =&gt; Reihe von Befehlen<ul>
+<li>wie bei trad. Systemmanagement</li>
+</ul>
+</li>
 <li>Mutability by default</li>
 <li>Seiteneffekte: Abhängig von Umgebung und verändern Umgebung</li>
+<li>weiß nicht, von was eine Codezeile abhängt und was sie tut<ul>
+<li>=&gt; muss reinschauen</li>
 </ul>
 </li>
-<li><p>Ergebnis:</p>
-<ul>
-<li>Code schwer nachvollziehbar (letztes JFS &quot;Readable Code&quot;) weil versteckte Abhängigkeiten</li>
 </ul>
 </li>
-<li><p>Dagegen Rein Funktional:</p>
-<ul>
-<li>Immutable by default</li>
-<li>referentiell Transparent =&gt; bei gleichen Parametern liefern Funktionen immer gleichen Wert =&gt; reproduzierbar</li>
+<li>Dagegen Rein Funktionale Sprachen:<ul>
+<li>Immutable, keine versteckten Seiteneffekte</li>
+<li>referentielle Transparenz =&gt; bei gleichen Parametern liefern Funktionen immer gleichen Wert</li>
+<li>=&gt; reproduzierbar</li>
 <li>Funktionalität meist aus Typsignatur (+Name) ersichtlich</li>
-</ul>
-</li>
-<li><p>(Hinweis):</p>
-<ul>
-<li>Standards einer Sprache beeinflussen im Durchschnitt den Code darin</li>
-<li>Heißt nicht, dass funktionaler Code immer besser verständlich ist, aber es ist einfacher, verständlichen Code zu schreiben</li>
 </ul>
 </li>
 </ul>
@@ -355,44 +423,34 @@ plus = ...
 <img class="embed" src="./imgs/derivation.drawio.svg" />
 
 <aside class="notes"><ul>
-<li>Zurück zum Paketmanagement: Wie wird ein &quot;Softwarepaket&quot; gebaut?
-  (Programm oder sonstiger Bestandteil eines Systems)</li>
+<li>Zurück zum Systemmanagement: </li>
+<li>hier ist unser imperatives Management:<ul>
 <li>Systemzustand += Source Code + Buildscript</li>
-<li>Installation eines Programms brauch kein Zugriff auf gesamten Systemzustand</li>
-<li>Muss auch nicht den ges. Zustand verändern können. Nur binaries, libs, und Configdateien schreiben.</li>
+<li>Paket bauen / installieren =&gt; Systemzustand nehmen und verändern</li>
 </ul>
-<ol>
-<li>Funktional: Kein Systemzustand mehr</li>
-<li>Stattdessen: Wirkliche Abhängigkeiten werden explizit gemacht (dies sind wiederum Softwarepakete)</li>
-<li>Mit diesen 4 Zutaten wird das Paket nun gebaut. Die Dateien, mit denen normalerweise der Systemzustand verändert wird, werden nun isoliert als Resultat gesammelt.<ul>
-<li>Ergebnis: funktionales Paketmanagement = referentiell transparente Funktion<ul>
-<li>Code &amp; Deps = Argumente</li>
-<li>Build Script = Funktionskörper</li>
-<li>Das Ergebnis (das installierbare Paket) wird nun <strong>nur</strong> noch durch seine <strong>Inputs</strong> definiert</li>
-<li>Buildprozess nicht mehr maschinenabhängig. Bei exakt gleichen Inputs kommt Bit für Bit das gleiche Ergebnis auf jeder beliebigen Maschine heraus</li>
+</li>
+<li>Wie kann funktionales Prinzip übertragen werden?<ul>
+<li>Alle Seiteneffekte verbieten, Abhängigkeiten explizit machen</li>
+<li>Z.B. Java Binary: JDK, Maven, JRE</li>
+<li>Rückgabewert:<ul>
+<li>verändere nicht mehr System mit gebauten Dateien</li>
+<li>sondern speichere Dateien separat ab</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Pakete können Inputaddressiert abgespeichert werden (Hash aller Inputs)<ul>
-<li>Quellcode ist mit Commit / Hash fixiert</li>
-<li>Paket-Abhängigkeiten werden ebenfalls so erstellt und abgespeichert.</li>
-<li>Damit: Kompletter Dependency-Graph eines Systems, von Anwendung bis zum Kernel explizit und gehasht</li>
-<li>Auch: <ul>
-<li>Abhängigkeiten sind auf Commit bekannt, d.h. es kann zu keinen Versionskonflikten kommen</li>
-<li>Mehrere Versionen können koexistieren</li>
-<li>Binär-Caching möglich:<ul>
-<li>Ich möchte Paket #83mu3 mit Abhängigkeiten #12ia3 und #ivdj3</li>
-<li>Durch Hashes der Inputs kann ich Hash von Paket A berechnen</li>
-<li>Andere Computer fragen: hat jemand Paket #83mu3?</li>
-<li>Nicht selber bauen notwendig</li>
+<li>Somit mein Paket bitgenau reproduzierbar - bei exakt gleichen Inputs exakt gleicher Output <ul>
+<li>=&gt; Referentielle Transparenz</li>
 </ul>
 </li>
+<li>Wie stelle ich bitgenau Äquivalenz von Paketen fest? <ul>
+<li>Checksum bilden</li>
+<li>Da Paket nur noch von Inputs abhängt, kann dessen CS nur anhand der von Inps. berechnet werden</li>
 </ul>
 </li>
+<li>Das ganze wird rekursiv durchs ganze System durchgezogen werden</li>
+<li>=&gt; jedes einzelne Bit meines Systems kontrolliert</li>
 </ul>
-</li>
-</ol>
 </aside></script></section><section data-markdown><script type="text/template">
 # Nix <!-- .element: class="nix-header" --> [![GitHub stars](https://img.shields.io/github/stars/nixos/nixpkgs?color=%231365FF&style=social)](https://GitHub.com/nixos/nixpkgs/stargazers/)
 
@@ -434,26 +492,26 @@ plus = ...
 <!-- }}} -->
 
 <aside class="notes"><ul>
-<li>Genau dieses Konzept implementiert der Paketmanager <em>Nix</em></li>
-<li>TODO Umfrage? Wer hat schon was davon gehört?</li>
+<li>Hab ich natürlich nicht selber erfunden</li>
+<li>dieses Konzept implementiert der Paketmanager <em>Nix</em></li>
+<li>in der Beschreibung steckt das rein funktionale / referentielle Transparenz</li>
 <li>Paar Eckdaten:<ul>
 <li>etwa 20 Jahre alt</li>
-<li>Hauptsächlich Linux, aber auch guter Support für MacOS</li>
-<li>Repology (Statistiken zu versch. Paketmanagern): etwa 80k Packages </li>
-<li>Damit theoretisch &quot;größter&quot; PM, aber packaged auch andere Ökosysteme wie Python oder Haskell Packages</li>
+<li>Hauptsächlich Linux und MacOS</li>
+<li>Im vergleich zu anderen PMs: sehr umfangreich: etwa 80k Packages</li>
 </ul>
 </li>
 </ul>
 </aside></script></section><section data-markdown><script type="text/template">
-## Nix: Store <!-- .element: class="nix-header" --> 
+## Nix Store <!-- .element: class="nix-header" --> 
 
 <div class=two-col>
 <div class=left >
-<img class=fragment style="width:100%;background:none" src="./imgs/nix-store.drawio.svg" />
+<img data-fragment-index=1 class=fragment style="width:100%;background:none" src="./imgs/nix-store.drawio.svg" />
 </div>
 <div class=right>
 
-<img class=fragment src="./imgs/derivation.drawio.svg" style="width:15em;position:absolute;border:1px solid black!important;border-radius:.5em;top:-1em;background:white;padding:1em" />
+<img data-fragment-index=0 class=fragment src="./imgs/derivation.drawio.svg" style="width:15em;position:absolute;border:1px solid black!important;border-radius:.5em;top:-1em;background:white;padding:1em" />
 
 - ✅ Immutable / Append-only Store
 - ✅ ~~Dependency Hell~~
@@ -492,27 +550,25 @@ Hello World!
 }}} -->
 
 <aside class="notes"><ul>
-<li><p>Beim Bauen von Derivations werden Outputs produziert</p>
+<li><p>Zurück zum Paketmanagement</p>
 </li>
-<li><p>Wohin mit diesen?</p>
+<li><p>Wie sieht diese hashgenaue verlinkung von Inputs aus?</p>
 </li>
-<li><p>Standardpfade /usr/lib und /usr/bin sind schlecht: veränderbar und erzeugen Kollisionen</p>
+<li><p>Nix: globalen, append-only Store in /nix/store</p>
 </li>
-<li><p>Nix löst dies mit einem globalen, append-only Store in /nix/store</p>
+<li><p>alle gebauten <strong>DERIVATIONS</strong> mit Hash und Name in einem globalen Ordner</p>
 </li>
-<li><p>alle gebauten Derivations mit Hash und Name in einem globalen Ordner</p>
-</li>
-<li><p>Unter jedem Store Path liegen die Outputs wie bin, lib, usw.</p>
-</li>
-<li><p>Derivations verlinken direkt auf ihre Inputs</p>
+<li><p>Derivations verweisen direkt auf ihre Inputs</p>
 </li>
 <li><p>Z.B. hello-world auf JRE (runtime deps), JRE und JDK auf GNU LibC</p>
 </li>
 <li><p>Store Paths können nicht verändert, nur hinzugefügt werden (immutability)</p>
 </li>
+<li><p>Nebenbei: beliebig viele Versionen, unpriv. Install</p>
+</li>
 <li><p>Damit haben wir ein funktionierendes Paketsystem!</p>
 </li>
-<li><p>Jedoch müssen die Pfade im Store explizit angeben werden - keiner entwickelt so</p>
+<li><p>nicht sehr ergonomisch</p>
 </li>
 </ul>
 </aside></script></section><section data-markdown><script type="text/template">
@@ -561,160 +617,96 @@ export PATH="/nix/store/12c9a5ced0...hello-world/bin:..."
 }}}-->
 
 <aside class="notes"><ul>
-<li><p>Zum Glück ist in Linux fast alles eine Datei (insb. Systemkonfiguration)</p>
-</li>
-<li><p>Nix kann jede Art von Datei bauen</p>
-</li>
-<li><p>Somit können wir einfach Systemkonfigurationen mit Nix bauen =&gt; NixOS</p>
-</li>
-<li><p>Z.B. die Pfad-Variable (gibt an, wo nach ausführbaren Dateien gesucht wird)</p>
-</li>
-<li><p>Wird in /etc/profile beim Login eines Nutzers gesetzt</p>
-</li>
-<li><p>Diese enthält nun beispielsweise unser Java-hello-world</p>
-</li>
-<li><p>Konfigurationen liegen vorerst nur im Store</p>
-</li>
-<li><p>An einer zentralen Stelle (/nix/var/nix/profile) wird auf die aktuelle System-Derivation verlinkt</p>
-</li>
-<li><p>Bei Installation oder Updates werden dann die Links in den richtigen Ordnern (z.b. /etc/profile) gesetzt</p>
-</li>
-<li><p>Systemzustand wird granular und atomar verändert</p>
-</li>
-<li><p>Rollbacks sind durch verlinken der vorherigen Systemgeneration möglich</p>
-</li>
-<li><p>Granular:</p>
-<ul>
-<li>Nur Systemdateien werden von NixOS verändert</li>
-<li>User-Daten wie /home werden von NixOS nicht verändert</li>
-<li>Damit ist unser ursprüngliches Problem der Updates gelöst</li>
-<li>D.h. aber, dass Systemdateien nicht konventionell von User verändert werden können </li>
-<li>=&gt; alles läuft über Derivations</li>
-<li>Wie können einzelne Developer ihr System anpassen? Dazu später mehr</li>
+<li>NixOS nutzt das um ein komplettes Betriebssystem zu bauen</li>
+<li>System wird als Nix-Derivation gebaut<ul>
+<li>dazu gehören Konfigdateien (Text), </li>
+<li>z.B. /etc/profile, in der meine Shell initialisiert wird</li>
+<li>hier PATH setzen, d.h. hello-world ohne expliziten Pfad aufrufen</li>
 </ul>
 </li>
-<li><p>Weil ganzes System nur eine Derivation ist, kann NixOS für viele Targets gebaut werden:</p>
-<ul>
-<li>offensichtlich Bare Metal</li>
-<li>ISOs</li>
+<li>diese Dateien liegen jetzt im Store</li>
+<li>tatsächliche Dateien, die von Programmen genutzt werden, verweisen in den Store</li>
+<li>Das ganze geht über einen festen Zwischenlink, der atomar ausgetauscht werden kann<ul>
+<li>d.h. bei Update baue ich neues System im Store</li>
+<li>danach wird der zwischenlink atomar ausgetauscht</li>
+<li>alle Systemdateien gehen da durch und werden somit gleichzeitig getauscht</li>
+<li>geht natürlich auch zurück =&gt; rollbacks</li>
+</ul>
+</li>
+<li>Granular:<ul>
+<li>Nur Systemdateien werden von NixOS verändert</li>
+<li>User-Daten wie /home werden von NixOS nicht verändert</li>
+</ul>
+</li>
+<li>Damit ist unser ursprüngliches Problem der Updates gelöst<ul>
+<li>Systemzustand wird nicht angefasst und kann über Updates mitgenommen werden</li>
+</ul>
+</li>
+<li>Für prod. Nutzung dieses Systems fehlt noch hardwareanbindung<ul>
+<li>da system selbst eine Derivation, kann darauf aufbauend für verschiedene Targets gebaut werden<ul>
+<li>Bare Metal: Bootloader, Festplattenpartionierung</li>
+<li>ISOs Image</li>
 <li>VM- und Docker-Images</li>
-<li>usw.</li>
+</ul>
+</li>
+<li>=&gt; Treiber, dazu später mehr, erst schauen wir uns an, wie NixOS konfiguriert wird.</li>
 </ul>
 </li>
 </ul>
 </aside></script></section><section data-markdown><script type="text/template">
-## Entwicklungsumgebungen mit NixOS <!-- .element: class="nix-header" -->
+## Systemkonfiguration mit NixOS <!-- .element: class="nix-header" -->
+
+[<i class="fa-brands fa-github"></i> github.com/htngr/jfs-23-deac/configuration.nix](https://github.com/htngr/jfs-23-deac/blob/master/configuration.nix)
+
+[<i class="fa-solid fa-magnifying-glass"></i> NixOS Search (Packages/Options)](https://search.nixos.org/packages)
+
+
+<!-- }}} -->
+</script></section></section><section ><section data-markdown><script type="text/template">
+## NixOS - Driver <!-- .element: class="nix-header" --> 
 
 <!-- {{{ -->
 
-<div class="two-col">
-<div class="left">
+[<i class="fa-brands fa-github"></i> github.com/NixOS/nixpkgs/nixos/modules/virtualisation](https://github.com/NixOS/nixpkgs/tree/master/nixos/modules/virtualisation)
+<!-- .element: style="margin-top:-2em" -->
 
-### 1.&nbsp;&nbsp;Wartung
-<!-- .element: style="margin-bottom: 1em; margin-top: 1em" -->
 
-#### Tools zur Entwicklung eines Projektes bereitstellen
+```nix
+# configuration.nix
+{ pkgs, modulesPath, ... }: {
 
-✅ Erstellung\
-✅ Updates\
-✅ Rollbacks\
-✅ Automatisierung\
-✅ Reproduzierbarkeit
+  imports = [ 
+    # VMware derivation: config.system.build.vmwareImage
+    "${modulesPath}/virtualisation/vmware-image.nix" 
 
-</div>
-<div class="right">
+    # docker **container** derivation: config.system.build.tarball
+    "${modulesPath}/virtualisation/docker-image.nix" 
+  ];
 
-### 2.&nbsp;&nbsp;Developer Experience
-<!-- .element: style="margin-bottom: 1em; margin-top: 1em" -->
-
-#### Entwickler entwickeln lassen
-
-✅ Individualisierung\
-❓ Performance <span class=fragment>=> Container statt VM</span>\
-❓&nbsp;Integration&nbsp;<span class=fragment style="white-space:nowrap">=> Host-Grafik & -Ordner teilen</span>
-
-</div>
-</div>
-
-<aside class="notes"><ul>
-<li><p>TODO: hier Demo von NixOS-Modulen (nixos-search / vim)</p>
-</li>
-<li><p>Für PDF: simple Folie mit stichpunkten</p>
-</li>
-<li><p>nächster Fokus: Performance</p>
-</li>
-<li><p>da Nix eine vollständige Sprache ist, muss NixOS nicht auf auf Derivation-Ebene konfiguriert werden</p>
-</li>
-<li><p>Dazu gibt es das NixOS-Modulsystem</p>
-</li>
-<li><p>Es gibt über 10k zur Verfügung stehende Optionen</p>
-</li>
-<li><p>von Programmen, über Datenbanken, über Grafische Umgebung, User, etc.</p>
-</li>
-<li><p>Beispiele</p>
-</li>
-<li><p>Damit: </p>
-<ul>
-<li>Typechecking für ein System</li>
-<li><strong>Systemkonfig. als Code</strong></li>
-</ul>
-</li>
-<li><p>Das praktische am Modulsystem: Verschiedene Konfigurationen lassen sich kombinieren</p>
-</li>
-<li><p>Damit könnten einzelne Entwickler ihre EU anpassen</p>
-</li>
-<li><p>UND: diese Anpassungen können zwischen verschiedenen EUs geteilt werden (da nur Code)</p>
-</li>
-</ul>
-<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-<ul>
-<li>Damit: Lösung des ersten Problems: Erstellung und Wartung der Entwicklungsumgebung </li>
-<li>EU kann sich mit dem Projekt entwickeln, da die Konfiguration in Code stattfindet</li>
-<li>Nix-Code liegt im Projekt</li>
-<li>Aktuellste EU kann per CI als VM-Image gebaut werden (Erstinstallation)</li>
-<li>Updates = Vom gewünschten Projektstand lokal NixOS rebuilden</li>
-<li>Neuer Stack im Projekt =&gt; Entwicklung auf Feature-Branch<ul>
-<li>configuration.nix wird auf dem Feature-Branch angepasst</li>
-</ul>
-</li>
-<li>Projektstand vor einem Jahr muss bearbeitet werden? NixOS von diesem Commit bauen</li>
-<li>Individuelle Config:<ul>
-<li>Entwickler integrieren lokal ihre eigene config.nix</li>
-<li>Diese kann z.B. auch in Git liegen und zwischen versch. Projekten geteilt werden</li>
-</ul>
-</li>
-</ul>
-<!-- }}} --></aside></script></section></section><section ><section data-markdown><script type="text/template">
-## Linux: Docker / Podman
-
-```bash
-sudo podman                        \
-  --systemd always                 \ # SystemD Support
-  --privileged                     \
-  -v /nix:/nix                     \ # Share Host Nix Store
-  -v /tmp/.X11-unix:/tmp/.X11-unix \ # X Passthrough
-  my-nixos-image
+  ...
+}
 ```
-<!-- .element: class="fragment" style="font-size:1em" -->
+<!-- .element: style="font-size:.7em" -->
 
 <aside class="notes"><ul>
-<li>Podman statt Docker<ul>
-<li>Drop-in replacement</li>
-<li>Rootless containers (WIP)</li>
-<li>SystemD Support</li>
+<li>Um das ganze praktisch zu nutzen, müssen wir noch einen Hardware-Treiber hinzufügen</li>
+<li>diese NixOS-Module bauen aus der Systemderivation eine Derivation mit einem ISO image</li>
+<li>oder hier: ein VMware Image</li>
+<li>Damit: könnten wir Feierabend machen, da wir unsere Anforderungen was
+inkrementelle Updates usw. angeht erfüllt haben</li>
+<li>ABER: 2. Anforderung: Entwicklererfahrung / Performance</li>
+<li>VMs: <ul>
+<li>nicht unbedingt Resourceneffizient, performant (Input lag)</li>
+<li>stark isoliert vom Host (Dateien, Grafik / Fenster)</li>
 </ul>
 </li>
-<li>Da Nix-Store Immutable, ist teilen mit Host möglich<ul>
-<li>Damit: &lt;10 MB Images, egal welcher Inhalt</li>
-<li>Gleiche Software ist nur einmal auf Host abgespeichert</li>
-<li>Builds &amp; Rebuilds sehr schnell im Vergleich zu ganzer VM</li>
+<li>besser: Container, unter Linux: Docker / Podman für NixOS<ul>
+<li>leichtgewichtiger, weniger Resourcen</li>
+<li>weniger isoliert, einfacher Dateien u. Grafik usw. teilen<ul>
+<li>bind mounts</li>
+<li>X-Socket passthrough =&gt; nativ wirkende Fenster aus Container</li>
 </ul>
 </li>
-<li>X-Passthrough:<ul>
-<li>Fenster erscheinen neben Hostprogrammen</li>
-<li>Sehen und verhalten sich identisch</li>
-<li>Clipboard, Audio funktioniert wie gewöhnlich</li>
-<li>Trotzdem sind Anwendungen isoliert</li>
 </ul>
 </li>
 </ul>
@@ -740,88 +732,41 @@ sudo podman                        \
 <!-- }}} -->
 
 <aside class="notes"><ul>
-<li><p>Auf Windows 10 und 11 von Microsoft</p>
-</li>
-<li><p>WSL 2</p>
-</li>
-<li><p>Windows Hypervisor Hyper-V</p>
-</li>
-<li><p>Ausführen von Linux-Anwendungen und Distributionen</p>
-</li>
-<li><p>Kernel wird zwischen Distributionen geteilt</p>
-</li>
-<li><p>Effiziente Ressourcenteilung mit Host</p>
-</li>
-<li><p>Jede Distribution läuft in einer Art Container</p>
-</li>
-<li><p>Dateisystem von Windows (C:) kann aus jeder Distribution, Dateisystem jeder Distrib. von Windows</p>
-</li>
-<li><p>Geschwindigkeit wie nativ bzw. sogar besser als direkt Windows (bei vielen Dateizugriffen)</p>
-<ul>
-<li>Talk Später &quot;Wsl2 der warp antrieb für Windows-Entwickler&quot; von Mirko Pleli</li>
+<li>unter windows: WSL2</li>
+<li>nicht genauer auf details<ul>
+<li>Talk Später: &quot;Wsl2 der warp antrieb für Windows-Entwickler&quot; von Mirko Pleli</li>
 </ul>
 </li>
-<li><p>GPU Passthrough möglich</p>
-</li>
-<li><p>X-Server für Windows</p>
-<ul>
-<li>genau wie X-Passthrough mit Podman</li>
-<li>Fenster erscheinen neben Windows-Apps</li>
-<li>Sehen und verhalten sich (so gut wie) identisch</li>
-<li>Clipboard funktioniert wie gewöhnlich</li>
-<li>Audio kann durch zusätzlichen Sound-Server genutzt werden</li>
+<li>Von Microsoft, ab Win 10</li>
+<li>Linux in Windows nutzen<ul>
+<li>Ressourceneffizient, ähnlich wie Container</li>
+<li>Linux Programme genauso schnell wie Windows Anwendungen ausführen</li>
 </ul>
 </li>
-<li><p>Mit NixOS</p>
-<ul>
-<li>jede EU wäre eine WSL2-Instanz</li>
-<li>entweder mit eigenem Store</li>
-<li>ODER Mit Store-Sharing kann Imagegröße auf unter 10 MB gesenkt werden</li>
-<li>Store liegt dann in einer separaten WSL2-Instanz und wird in die anderen gemountet</li>
+<li>Dateisystem, Grafik, Netzwerk wird geteilt</li>
 </ul>
-</li>
-<li><p>TODO</p>
-<ul>
-<li>Demo <ul>
-<li>git repo (intellij) mit configuration.nix</li>
-<li>2 tags: 2 verschiedene ides</li>
-<li>bauen des WSL-images vom ersten Tag</li>
-<li>import in WSL</li>
-<li>starten IJ aus Startmenü</li>
-<li>update innerhalb WSL auf 2. tag</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- }}} --></aside></script></section></section><section ><section data-markdown><script type="text/template">
-# NixOS Devenv <!-- .element: class="devenv-header" -->
+</aside></script></section><section data-markdown><script type="text/template">
+## NixOS-WSL <!-- .element: class="wsl-header" -->
 
+[<i class="fa-brands fa-github"></i> github.com/htngr/jfs-23-deac/wsl.nix](https://github.com/htngr/jfs-23-deac/blob/master/wsl.nix)
+
+[<i class="fa-solid fa-puzzle-piece"></i> NixOS-WSL](https://github.com/nix-community/NixOS-WSL)
+
+
+<!-- }}} -->
+</script></section></section><section ><section data-markdown><script type="text/template">
 <!-- {{{ -->
 
-[<i class="fa-brands fa-github"></i> github.com/aformatik/nixos-devenv](https://github.com/aformatik/nixos-devenv) 
-<!-- .element: style="margin-top:-.5em" -->
+## codchi &ndash; <span style="color:#003CAC">Cod</span>e Ma<span style="color:#003CAC">chi</span>nes
+<!-- .element: class="devenv-header fragment" data-fragment-index="1" -->
+[<i class="fa-solid fa-house"></i> codchi.dev](https://codchi.dev) 
+[<i class="fa-brands fa-github"></i> github.com/aformatik/codchi](https://github.com/aformatik/codchi) <!-- .element: style="margin-left:.5rem" -->
+<!-- .element: style="margin-top:-2em;margin-bottom:1em" class="fragment" data-fragment-index="1" -->
 
-<br>
 
-- TODO Wir bei aformatik haben uns gefragt: Wie kann man das ganze noch optimieren / geradliniger machen?
-    - optimierte NixOS Driver-Module
-    - Store sharing
-    - lokales, inkrementelles bauen
-    - CLI
-    - performantere Grafiklösung: eigener X-Server
-    - Shortcuts
-
-- "One Click Install" Bundle
-    - NixOS-Module für Runtime: WSL2, Podman, ...
-    - Host-Tools: X-Server, Sound-Server, ...
-    - Plattformübergreifendes Interface via CLI
-- Cross Platform
-    - Windows via WSL2
-    - Linux via Podman *(Coming soon)*
-    - MacOS via Lima *(Coming soon)*
-
-<!-- .element: class="animated" -->
+<div class=fragment style="width:100%" data-fragment-index="0">
+<img class="embed fragment" style="width:90%;height:100%;" src="./imgs/nixos-devenv.drawio.svg" />
+</div>
 
 <style>
 .devenv-header::before {
@@ -838,86 +783,42 @@ sudo podman                        \
 </style>
 
 <aside class="notes"><ul>
-<li>Wir haben jetzt die zwei Hauptprobleme bei Entwicklungsumgebungen gesehen<ul>
-<li>Erstellung und Updates von Entwicklungsumgebungen</li>
-<li>und DX</li>
+<li>Wir sehen<ul>
+<li>NixOS + Container erfüllt schon ziemlich gut unsere Anforderungen bzgl. Wartung und DX</li>
+<li>Aber: man kann noch einiges verbessern</li>
 </ul>
 </li>
-<li>Für beides haben wir Lösungen gefunden: NixOS und Container mit Hostintegration statt VMs</li>
-<li>Aktuell ist jedoch je nach Plattform und Herangehensweise noch manuelles Setup nötig</li>
-<li>deswegen bei aformatik ein Tool entwickelt, das &quot;Configure Once, Run Anywhere&quot; ermöglicht<ul>
-<li>Endnutzer kümmert sich nur noch um Technologie in der EU</li>
+<li>Wir bei aformatik haben das ausprobiert. Ergebnis: Open source tool &quot;codchi&quot; (Github)</li>
+<li>Probleme: <ul>
+<li>Man kann nicht einfach seine EU als NixOS Modul konfigurieren<ul>
+<li>je nach OS muss nach NixOS-Treibern und passenden Tools gesucht werden</li>
+<li>codchi: optimierte NixOS Treiber für Windows, Linux und Mac (comming soon)</li>
 </ul>
 </li>
-<li>daraus ist das Tool &quot;nixos-devenv&quot; entstanden</li>
-<li>Open Source auf Gitlab verfügbar</li>
-<li>ein Bundle aus<ul>
-<li>NixOS-Modulen für Runtimes (vgl. Treiber)</li>
-<li>nativen Tools</li>
-<li>und einem CLI für ein platformübergreifendes Interface</li>
+<li>EU bleiben relativ schwergewichtig weil Nix-Store drin verpackt<ul>
+<li>5 EUs mit 70% Überschneidung =&gt; 5x auf der Festplatte</li>
+<li>Store ist immutable =&gt; einfach Store teilen!</li>
+<li>EU ohne Store: wenige MBs</li>
+<li>=&gt; inkrementelles Bauen</li>
 </ul>
 </li>
-<li>Plattformen</li>
+<li>speziell Windows:<ul>
+<li>performantere Grafiklösung: eigener X-Server &amp; Sound Server</li>
+<li>Shortcuts</li>
 </ul>
-</aside></script></section><section data-markdown><script type="text/template">
-## NixOS Devenv: Features <!-- .element: class="devenv-header" -->
-
-[<i class="fa-brands fa-github"></i> github.com/aformatik/nixos-devenv](https://github.com/aformatik/nixos-devenv) 
-<!-- .element: style="margin-top:-1em" -->
-
-<br>
-
-- automatisches Host-Setup und -Integration
-- Shared Nix-Store
-- individualisierte Entwicklungsumgebungen
-- NixOS-Module für Entwicklungsumgebungen
-
-<!-- .element: class="animated" -->
-</script></section><section data-markdown><script type="text/template">
-## NixOS Devenv: Windows <!-- .element: class="devenv-header" -->
-
-[<i class="fa-brands fa-github"></i> github.com/aformatik/nixos-devenv](https://github.com/aformatik/nixos-devenv) 
-<!-- .element: style="margin-top:-1em" -->
-
-<br>
-
-<div class=fragment style="width:100%">
-<img class="embed fragment" style="width:90%;height:100%;" src="./imgs/nixos-devenv.drawio.svg" />
-</div>
-
-<aside class="notes"><ul>
-<li>Da Windows wahrscheinlich am meisten genutzt bei Entwicklern, schauen wir uns das näher an</li>
-<li>devenv.exe<ul>
-<li>&quot;Kontrollserver&quot; und CLI</li>
-<li>Startet und stoppt X- und Sound-server unter Windows</li>
-<li>kontrolliert den geteilten Nix-Store in einer separaten WSL-Instanz</li>
-<li>kontrolliert die tatsächlichen Devenvs und mountet den Store für sie</li>
+</li>
+<li>Crossplatform CLI =&gt; gleiches Interface auf allen Platformen (Linux &amp; MacOS comming soon)</li>
 </ul>
 </li>
 </ul>
 </aside></script></section><section data-markdown><script type="text/template">
-## NixOS Devenv: Demo <!-- .element: class="devenv-header" -->
+## codchi auf Windows <!-- .element: class="devenv-header" -->
 
-[<i class="fa-brands fa-github"></i> github.com/aformatik/nixos-devenv](https://github.com/aformatik/nixos-devenv) 
-<!-- .element: style="margin-top:-1em" -->
+[<i class="fa-brands fa-github"></i> github.com/aformatik/codchi/README.md](https://github.com/aformatik/codchi#installation)
 
-<aside class="notes"><p>TODO: vllt. Overview über devenv CLI</p>
-<ol>
-<li>devenv-server starten, prozesse im Taskmanager zeigen</li>
-<li>devenv-instanz konfigurieren / zeigen</li>
-<li>devenv install (+ individual config)<ul>
-<li>evtl. .vhdx größe zeigen</li>
-</ul>
-</li>
-<li>devenv run, programme zeigen, IJ starten</li>
-<li>Shortcuts zeigen, IJ starten</li>
-<li>config updaten, devenv update<ul>
-<li>evtl. .vhdx größe vergleichen</li>
-</ul>
-</li>
-</ol>
-<!-- }}} --></aside></script></section></section><section ><section data-markdown><script type="text/template">
-## Development Environments as Code: Fazit
+<!-- }}} -->
+</script></section></section><section ><section data-markdown><script type="text/template">
+## DEaC mit NixOS - Fazit
 
 <!-- {{{ -->
 
@@ -925,18 +826,38 @@ sudo podman                        \
 - ✅ Entwicklungsumgebung entwickelt sich mit Projekt
 - ✅ Automatisierte und Reproduzierbare Installation, Updates und Rollbacks
 - ✅ Individualisierbare Entwicklungsumgebungen
-- ✅ Gute Developer-Experience möglich &ndash; Tools wie *NixOS Devenv* helfen
+- ✅ Gute Developer-Experience möglich &ndash; Tools wie *codchi* helfen
 
 <!-- .element: class="animated" style="list-style:none" -->
 
 <br>
 
-- ❌ Neuartige Herangehensweise => Lernkurve
-- ❌ TODO: System wird nur noch durch NixOS gemanaged
+- ❓ Anderes Konzept von Systemmanagement
+- ❓ Lernkurve
+- ❓ (noch) wenig Dokumentation
 
 <!-- .element: class="animated" style="list-style:none" -->
 
-<aside class="notes"><p>- </p>
+<aside class="notes"><ul>
+<li><p>Das wars auch schon</p>
+</li>
+<li><p>Wir haben uns heute angeschaut:</p>
+<ul>
+<li>wie funktioniert eine optimale EU?</li>
+<li>warum sind bestehende Ansätze suboptimal =&gt; imperativ</li>
+<li>wie können wirs besser machen? =&gt; NixOS</li>
+</ul>
+</li>
+<li><p>mit NixOS</p>
+<ul>
+<li>deklarative Programmierung des Systems statt imperative, fragile Skripte</li>
+<li>EU liegt als Code vor, EU kann an jedem Commit ausgecheckt werden</li>
+<li>Installation / Updates / Rollbacks sind automatisiert und reproduzierbar (bit-genau)</li>
+<li>durch NixOS-Module sogar EU-übergreifend individualisierbar</li>
+<li>Gute DX möglich durch das richtige Tooling</li>
+</ul>
+</li>
+</ul>
 <!-- }}} --></aside></script></section><section data-markdown><script type="text/template">
 # Development Environments as Code <!-- .element: id="title" -->
 
@@ -964,7 +885,7 @@ Johannes Hüttinger
 
 [<i class="fa-regular fa-snowflake"></i> nixos.org](https://nixos.org)
 
-[<i class="fa-brands fa-github"></i> github.com/aformatik/nixos-devenv](https://github.com/aformatik/nixos-devenv) 
+[codchi.dev](https://codchi.dev) <!-- .element class="devenv-header" -->
 
 </div>
 </div>
